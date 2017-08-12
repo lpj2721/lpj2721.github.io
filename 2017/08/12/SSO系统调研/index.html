@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="SSO系统调研SAML2.0 VS OAuth2 术语SAML 2.0规范（以下称为SAML）提供了一个Web浏览器SSO配置文件，其中描述了如何为Web应用程序实现单点登录。 SAML有三个主要参与者： SAML和OAuth2对类似的概念使用类似的术语。为了比较，正式的SAML术语与括号中的OAuth2等价物一起列出。  Service Provider (Resource Server)  服">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSO系统调研">
+<meta property="og:url" content="http://yoursite.com/2017/08/12/SSO系统调研/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="SSO系统调研SAML2.0 VS OAuth2 术语SAML 2.0规范（以下称为SAML）提供了一个Web浏览器SSO配置文件，其中描述了如何为Web应用程序实现单点登录。 SAML有三个主要参与者： SAML和OAuth2对类似的概念使用类似的术语。为了比较，正式的SAML术语与括号中的OAuth2等价物一起列出。  Service Provider (Resource Server)  服">
+<meta property="og:image" content="http://yoursite.com/2017/08/12/SSO系统调研/blog/tommy/source/_posts/SSO系统调研/saml2-flow.png">
+<meta property="og:image" content="http://yoursite.com/2017/08/12/SSO系统调研/blog/tommy/source/_posts/SSO系统调研/oauth2-flow.png">
+<meta property="og:updated_time" content="2017-08-12T08:04:25.298Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSO系统调研">
+<meta name="twitter:description" content="SSO系统调研SAML2.0 VS OAuth2 术语SAML 2.0规范（以下称为SAML）提供了一个Web浏览器SSO配置文件，其中描述了如何为Web应用程序实现单点登录。 SAML有三个主要参与者： SAML和OAuth2对类似的概念使用类似的术语。为了比较，正式的SAML术语与括号中的OAuth2等价物一起列出。  Service Provider (Resource Server)  服">
+<meta name="twitter:image" content="http://yoursite.com/2017/08/12/SSO系统调研/blog/tommy/source/_posts/SSO系统调研/saml2-flow.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/12/SSO系统调研/"/>
+
+
+
+
+
+  <title>SSO系统调研 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/SSO系统调研/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SSO系统调研</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T09:54:44+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="SSO系统调研"><a href="#SSO系统调研" class="headerlink" title="SSO系统调研"></a>SSO系统调研</h2><h3 id="SAML2-0-VS-OAuth2-术语"><a href="#SAML2-0-VS-OAuth2-术语" class="headerlink" title="SAML2.0 VS OAuth2 术语"></a>SAML2.0 VS OAuth2 术语</h3><p>SAML 2.0规范（以下称为SAML）提供了一个Web浏览器SSO配置文件，其中描述了如何为Web应用程序实现单点登录。 SAML有三个主要参与者：</p>
+<p>SAML和OAuth2对类似的概念使用类似的术语。为了比较，正式的SAML术语与括号中的OAuth2等价物一起列出。</p>
+<ul>
+<li><p><strong>Service Provider (Resource Server) </strong> 服务提供商（资源服务器）</p>
+</li>
+<li><p><strong>Client </strong> 客户端</p>
+</li>
+<li><p><strong>Identity Provider (Authorization Server) </strong>  身份提供者（授权服务器）</p>
+<p>​</p>
+</li>
+</ul>
+<p>最常见的SAML流程如下所示:</p>
+<p><img src="/2017/08/12/SSO系统调研/blog\tommy\source\_posts\SSO系统调研\saml2-flow.png" alt="saml2-flow"></p>
+<p>上面图中的虚构场景描述：</p>
+<ul>
+<li><p>A、  用户打开他们的网络浏览器，并转到MyPhotos.com，存储他们所有的照片。MyPhotos.com不处理身份验证。</p>
+</li>
+<li><p>B 、为了验证用户MyPhotos.com构造一个SAML Authnrequest，签名，可以加密它，并进行编码。之后，它将用户的Web浏览器重定向到Identidy Provider（IdP）以进行身份验证。IdP接收请求，对其进行解码，必要时对其进行解密，并验证签名。</p>
+</li>
+<li><p>C、通过有效的Authnrequest，IdP将向用户显示登录表单，用户可以输入用户名和密码。</p>
+</li>
+<li><p>D、用户登录后，IdP生成包含用户身份信息（如用户名，电子邮件等）的SAML令牌。</p>
+</li>
+<li><p>E、MyPhotos.com验证SAML令牌，如有必要，将其解密，并提取有关用户的身份信息，例如他们是谁，以及他们的权限。MyPhotos.com现在将用户登录到其系统中，大概有一些Cookie和会话。</p>
+<p>​</p>
+</li>
+</ul>
+<p>在过程结束时，用户可以与MyPhotos.com进行交互，作为登录用户。用户的凭据从未通过MyPhotos.com通过身份提供商。上面的图表有更多的细节，但这是深层次的事情。</p>
+<ul>
+<li><h4 id="SAML-token-vs-SAML-Assertion"><a href="#SAML-token-vs-SAML-Assertion" class="headerlink" title="SAML token vs. SAML Assertion"></a>SAML token vs. SAML Assertion</h4></li>
+</ul>
+<p>当首次被引入SAML时，“SAML token”一词反复出现。这实际上并不是SAML规范中的一个术语，但是人们不断使用它，其含义是难以捉摸的。事实证明，术语“SAML token”似乎是一种通俗的方法来引用SAML断言，通常是压缩的，编码的，可能加密的，通常看起来像gobbly-gook，而SAML Assertion只是一个具有某些元素的XML节点。</p>
+<h4 id="SAML’s-Native-App-Limitation"><a href="#SAML’s-Native-App-Limitation" class="headerlink" title="SAML’s Native App Limitation"></a>SAML’s Native App Limitation</h4><p>SAML支持绑定的概念。这些本质上是身份提供商将用户重定向回服务提供商的方式。例如，在上面的步骤D中，用户被重定向回MyPhotos.com，但如何？</p>
+<p>两种相关的绑定类型是SAML 2.0规范中定义的HTTP重定向和HTTP POST绑定。HTTP重定向绑定将使用HTTP重定向将用户发送回服务提供商，就我们的示例而言：MyPhotos.com。</p>
+<p>HTTP重定向绑定对于短SAML消息来说非常棒，但建议不要将其用于较长的消息，如SAML Assertion。</p>
+<p>推荐使用HTTP POST的方式有自己的怪异。例如，SAML规范建议上述步骤D呈现一个HTML表单，其中操作指向服务提供者。您可以让用户点击另一个按钮提交该表单，也可以使用JavaScript自动提交表单。为什么需要提交表格？在我的意见中，SAML 2.0显示它的年龄（大约在2005年），因为这里的形式只存在，所以可以使用HTTP POST将SAML令牌发送回服务提供商。</p>
+<p>当客户端不是基于Web的应用程序，而是本机的应用程序（如移动应用程序）时，这是一个问题。例如，假设我们已经安装了MyPhotos iPhone应用程序。我们打开应用程序，并希望我们对身份提供者进行身份验证。一旦我们进行身份验证，身份提供者需要将SAML令牌发回MyPhotos应用程序。</p>
+<p>大多数移动应用程序可以通过自定义URI启动，例如“my-photos：// authenticate”，并且可能的是，Identity Provider将包含SAML令牌的表单提交给该URL。我们的MyPhotos应用程序启动，但我们尚未登录。这么解决？</p>
+<p>移动应用无法访问HTTP POST主体。他们只能使用URL来启动应用程序。这意味着我们无法读取SAML令牌。</p>
+<h4 id="通过网址启动移动应用"><a href="#通过网址启动移动应用" class="headerlink" title="通过网址启动移动应用"></a>通过网址启动移动应用</h4><ul>
+<li>在Android上：从使用Intents的网址启动应用程序</li>
+</ul>
+<ul>
+<li>在iOS上：通过注册自定义URI方案启动应用程序</li>
+</ul>
+<h4 id="使用SAML的HTTP-POST绑定"><a href="#使用SAML的HTTP-POST绑定" class="headerlink" title="使用SAML的HTTP POST绑定"></a>使用SAML的HTTP POST绑定</h4><p>本地移动应用程序的HTTP POST绑定的限制可以解决。例如，您可以使用嵌入式Web视图，您可以在其中编写自定义代码来观看整个身份验证过程。在此过程的最后，您可以浏览页面的HTML并提取出SAML令牌。</p>
+<p>第二个解决方法是实现可以接收HTTP POST的代理服务器，提取SAML令牌，然后制作包含SAML令牌的URL（例如：“myphotos：// authenticate /？SAMLRequest = asdfsdfsdf”）代理服务器可以使用HTTP重定向来使设备打开MyPhotos应用程序。而且由于SAML令牌是URL的一部分，MyPhotos应用程序可以将其解压缩，并使用它登录。</p>
+<p>第三个解决方法是忽略规范对使用HTTP重定向绑定的建议。这是非常诱人的，但很难摆脱你走进矿场的感觉，只是希望你不要错过一步。</p>
+<p>避免解决办法的另一种方法是不依赖于SAML，而是查看另一种方法，如OAuth 2.0。</p>
+<h3 id="oauth2-0"><a href="#oauth2-0" class="headerlink" title="oauth2.0"></a>oauth2.0</h3><p>在深层次上，OAuth2流程与以前的SAML流程没有什么不同：</p>
+<p><img src="/2017/08/12/SSO系统调研/blog\tommy\source\_posts\SSO系统调研\oauth2-flow.png" alt="oauth2-flow"></p>
+<p>我们来看看我们之前通过SAML进行的同样的情况：</p>
+<ul>
+<li><p>A、用户打开他们的网络浏览器，并转到MyPhotos.com，存储他们所有的照片。MyPhotos.com不会自己处理身份验证，所以用户需要被授权才被重定向到授权服务器。 用户被呈现一个登录表单，并询问他们是否要批准资源服务器（MyPhotos.com）代表他们行事。用户登录并将其重定向回MyPhotos.com。</p>
+</li>
+<li><p>B、客户端接收授权授权代码作为重定向的一部分，然后将其传递给客户端。</p>
+</li>
+<li><p>C、客户端然后使用授权授权代码从授权服务器请求访问令牌。</p>
+</li>
+<li><p>D、如果授权授权代码有效，则授权服务器授予访问令牌。然后客户端使用访问令牌从资源服务器（MyPhotos.com）请求资源。</p>
+</li>
+<li><p>E、 MyPhotos.com收到资源的请求，并收到访问令牌。为了确保它是一个有效的访问令牌，它会将令牌直接发送到授权服务器进行验证。如果有效，授权服务器将返回有关该用户的信息。</p>
+</li>
+<li><p>F、已验证用户的请求MyPhotos.com将请求的资源发送回用户。</p>
+<p>​</p>
+</li>
+</ul>
+<p>这是最常见的OAuth2流程：授权码流程。OAuth2提供了另外三种流程（或称为授权授权），这些流程适用于稍微不同的方案，例如单页JavaScript应用程序，原生移动应用程序，本地桌面应用程序，传统Web应用程序，以及服务器端应用程序，其中用户不直接涉及，但他们已经授予您代表他们执行某些操作的权限。</p>
+<p>OAuth2流程的最大优点是从授权服务器返回到客户端和资源服务器的通信是通过HTTP重定向完成的，其中提供了令牌信息作为查询参数。OAuth2也不认为客户端是Web浏览器，而默认的SAML Web浏览器SSO配置文件。本地移动应用程序将开箱即用。没有必要的解决方法。</p>
+<p>OAuth2规范没有规定资源服务器和授权服务器之间的通信在许多情况下工作，例如验证令牌。它也没有说明什么信息应该返回关于用户或什么格式。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/08/mongodbb数据迁移/" rel="next" title="mongodb数据迁移">
+                <i class="fa fa-chevron-left"></i> mongodb数据迁移
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/12/OAuth2-o/" rel="prev" title="OAuth2.o">
+                OAuth2.o <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSO系统调研"><span class="nav-number">1.</span> <span class="nav-text">SSO系统调研</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SAML2-0-VS-OAuth2-术语"><span class="nav-number">1.1.</span> <span class="nav-text">SAML2.0 VS OAuth2 术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SAML-token-vs-SAML-Assertion"><span class="nav-number">1.1.1.</span> <span class="nav-text">SAML token vs. SAML Assertion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SAML’s-Native-App-Limitation"><span class="nav-number">1.1.2.</span> <span class="nav-text">SAML’s Native App Limitation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过网址启动移动应用"><span class="nav-number">1.1.3.</span> <span class="nav-text">通过网址启动移动应用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用SAML的HTTP-POST绑定"><span class="nav-number">1.1.4.</span> <span class="nav-text">使用SAML的HTTP POST绑定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oauth2-0"><span class="nav-number">1.2.</span> <span class="nav-text">oauth2.0</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

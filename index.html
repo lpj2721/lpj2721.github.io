@@ -202,7 +202,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            Startseite
+            Home
           </a>
         </li>
       
@@ -212,7 +212,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            Archiv
+            Archives
           </a>
         </li>
       
@@ -259,6 +259,474 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/OAuth2-o/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/12/OAuth2-o/" itemprop="url">OAuth2.o</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T16:06:28+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="OAuth2-0"><a href="#OAuth2-0" class="headerlink" title="OAuth2.0"></a>OAuth2.0</h2><h3 id="1、协议流程："><a href="#1、协议流程：" class="headerlink" title="1、协议流程："></a>1、协议流程：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">+--------+                               +---------------+</div><div class="line">|        |--(A)- Authorization Request -&gt;|   Resource    |</div><div class="line">|        |                               |     Owner     |</div><div class="line">|        |&lt;-(B)-- Authorization Grant ---|               |</div><div class="line">|        |                               +---------------+</div><div class="line">|        |</div><div class="line">|        |                               +---------------+</div><div class="line">|        |--(C)-- Authorization Grant --&gt;| Authorization |</div><div class="line">| Client |                               |     Server    |</div><div class="line">|        |&lt;-(D)----- Access Token -------|               |</div><div class="line">|        |                               +---------------+</div><div class="line">|        |</div><div class="line">|        |                               +---------------+</div><div class="line">|        |--(E)----- Access Token ------&gt;|    Resource   |</div><div class="line">|        |                               |     Server    |</div><div class="line">|        |&lt;-(F)--- Protected Resource ---|               |</div><div class="line">+--------+                               +---------------+</div></pre></td></tr></table></figure>
+<p>图1所示的抽象OAuth 2.0流程描述了四个角色之间的交互，包括以下步骤：</p>
+<ul>
+<li><p>A、客户端请求资源所有者的授权。 授权请求可以直接发送给资源所有者（如图所示），或者最好间接地通过授权服务器作为中介。</p>
+</li>
+<li><p>B、客户端接收到授权许可，它是表示资源所有者授权的凭证，使用本规范中定义的四种授权类型之一或使用扩展授权类型表示。 授权授权类型取决于客户端请求授权和授权服务器支持的类型所使用的方法。</p>
+</li>
+<li><p>C、 客户端通过与授权服务器进行身份验证并呈现认证授权来请求访问令牌。</p>
+</li>
+<li><p>D、授权服务器对客户端进行身份验证并验证授权许可，如果有效，则发出访问令牌。</p>
+</li>
+<li><p>E、 客户机从资源服务器请求受保护资源，并通过呈现访问令牌进行身份验证。</p>
+</li>
+<li><p>F、资源服务器验证访问令牌，如果有效，则提供请求。</p>
+<p>​</p>
+</li>
+</ul>
+<p>客户端从资源所有者（步骤（A）和（B）中描绘）获得授权许可的首选方法是使用授权服务器作为中介，如图3中第4.1节所示。</p>
+<h4 id="1-1、Authorization-Grant"><a href="#1-1、Authorization-Grant" class="headerlink" title="1.1、Authorization Grant"></a>1.1、Authorization Grant</h4><p><strong>Authorization Grant</strong>是表示资源所有者授权（访问其受保护的资源）的凭据，由客户端使用以获取访问令牌。此规范定义了四种授权类型 - authorization code, implicit, resource owner password   credentials, and client credentials，以及用于定义其他类型的可扩展性机制。</p>
+<h5 id="1-1-1、Authorization-Code"><a href="#1-1-1、Authorization-Code" class="headerlink" title="1.1.1、Authorization Code"></a>1.1.1、Authorization Code</h5><p>通过使用授权服务器作为客户端和资源所有者之间的中介来获得授权码。客户端不是直接向资源所有者请求授权，而是将资源所有者引导到授权服务器（通过[RFC2616]中定义的用户代理）），从而将资源所有者转发给具有授权码的客户端。</p>
+<p>在使用授权码指导资源所有者回到客户端之前，授权服务器对资源所有者进行身份验证并获得授权。由于资源所有者仅使用授权服务器进行身份验证，因此资源所有者的凭据不会与客户端共享。</p>
+<p>授权代码提供了一些重要的安全优势，例如验证客户端的能力，以及将访问令牌直接传输到客户端，而不通过资源所有者的用户代理，并将其暴露给其他人，包括 资源所有者。</p>
+<h5 id="1-1-2、-Implicit"><a href="#1-1-2、-Implicit" class="headerlink" title="1.1.2、 Implicit"></a>1.1.2、 Implicit</h5>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/12/SSO系统调研/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/12/SSO系统调研/" itemprop="url">SSO系统调研</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-12T09:54:44+08:00">
+                2017-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="SSO系统调研"><a href="#SSO系统调研" class="headerlink" title="SSO系统调研"></a>SSO系统调研</h2><h3 id="SAML2-0-VS-OAuth2-术语"><a href="#SAML2-0-VS-OAuth2-术语" class="headerlink" title="SAML2.0 VS OAuth2 术语"></a>SAML2.0 VS OAuth2 术语</h3><p>SAML 2.0规范（以下称为SAML）提供了一个Web浏览器SSO配置文件，其中描述了如何为Web应用程序实现单点登录。 SAML有三个主要参与者：</p>
+<p>SAML和OAuth2对类似的概念使用类似的术语。为了比较，正式的SAML术语与括号中的OAuth2等价物一起列出。</p>
+<ul>
+<li><p><strong>Service Provider (Resource Server) </strong> 服务提供商（资源服务器）</p>
+</li>
+<li><p><strong>Client </strong> 客户端</p>
+</li>
+<li><p><strong>Identity Provider (Authorization Server) </strong>  身份提供者（授权服务器）</p>
+<p>​</p>
+</li>
+</ul>
+<p>最常见的SAML流程如下所示:</p>
+<p><img src="/2017/08/12/SSO系统调研/blog\tommy\source\_posts\SSO系统调研\saml2-flow.png" alt="saml2-flow"></p>
+<p>上面图中的虚构场景描述：</p>
+<ul>
+<li><p>A、  用户打开他们的网络浏览器，并转到MyPhotos.com，存储他们所有的照片。MyPhotos.com不处理身份验证。</p>
+</li>
+<li><p>B 、为了验证用户MyPhotos.com构造一个SAML Authnrequest，签名，可以加密它，并进行编码。之后，它将用户的Web浏览器重定向到Identidy Provider（IdP）以进行身份验证。IdP接收请求，对其进行解码，必要时对其进行解密，并验证签名。</p>
+</li>
+<li><p>C、通过有效的Authnrequest，IdP将向用户显示登录表单，用户可以输入用户名和密码。</p>
+</li>
+<li><p>D、用户登录后，IdP生成包含用户身份信息（如用户名，电子邮件等）的SAML令牌。</p>
+</li>
+<li><p>E、MyPhotos.com验证SAML令牌，如有必要，将其解密，并提取有关用户的身份信息，例如他们是谁，以及他们的权限。MyPhotos.com现在将用户登录到其系统中，大概有一些Cookie和会话。</p>
+<p>​</p>
+</li>
+</ul>
+<p>在过程结束时，用户可以与MyPhotos.com进行交互，作为登录用户。用户的凭据从未通过MyPhotos.com通过身份提供商。上面的图表有更多的细节，但这是深层次的事情。</p>
+<ul>
+<li><h4 id="SAML-token-vs-SAML-Assertion"><a href="#SAML-token-vs-SAML-Assertion" class="headerlink" title="SAML token vs. SAML Assertion"></a>SAML token vs. SAML Assertion</h4></li>
+</ul>
+<p>当首次被引入SAML时，“SAML token”一词反复出现。这实际上并不是SAML规范中的一个术语，但是人们不断使用它，其含义是难以捉摸的。事实证明，术语“SAML token”似乎是一种通俗的方法来引用SAML断言，通常是压缩的，编码的，可能加密的，通常看起来像gobbly-gook，而SAML Assertion只是一个具有某些元素的XML节点。</p>
+<h4 id="SAML’s-Native-App-Limitation"><a href="#SAML’s-Native-App-Limitation" class="headerlink" title="SAML’s Native App Limitation"></a>SAML’s Native App Limitation</h4><p>SAML支持绑定的概念。这些本质上是身份提供商将用户重定向回服务提供商的方式。例如，在上面的步骤D中，用户被重定向回MyPhotos.com，但如何？</p>
+<p>两种相关的绑定类型是SAML 2.0规范中定义的HTTP重定向和HTTP POST绑定。HTTP重定向绑定将使用HTTP重定向将用户发送回服务提供商，就我们的示例而言：MyPhotos.com。</p>
+<p>HTTP重定向绑定对于短SAML消息来说非常棒，但建议不要将其用于较长的消息，如SAML Assertion。</p>
+<p>推荐使用HTTP POST的方式有自己的怪异。例如，SAML规范建议上述步骤D呈现一个HTML表单，其中操作指向服务提供者。您可以让用户点击另一个按钮提交该表单，也可以使用JavaScript自动提交表单。为什么需要提交表格？在我的意见中，SAML 2.0显示它的年龄（大约在2005年），因为这里的形式只存在，所以可以使用HTTP POST将SAML令牌发送回服务提供商。</p>
+<p>当客户端不是基于Web的应用程序，而是本机的应用程序（如移动应用程序）时，这是一个问题。例如，假设我们已经安装了MyPhotos iPhone应用程序。我们打开应用程序，并希望我们对身份提供者进行身份验证。一旦我们进行身份验证，身份提供者需要将SAML令牌发回MyPhotos应用程序。</p>
+<p>大多数移动应用程序可以通过自定义URI启动，例如“my-photos：// authenticate”，并且可能的是，Identity Provider将包含SAML令牌的表单提交给该URL。我们的MyPhotos应用程序启动，但我们尚未登录。这么解决？</p>
+<p>移动应用无法访问HTTP POST主体。他们只能使用URL来启动应用程序。这意味着我们无法读取SAML令牌。</p>
+<h4 id="通过网址启动移动应用"><a href="#通过网址启动移动应用" class="headerlink" title="通过网址启动移动应用"></a>通过网址启动移动应用</h4><ul>
+<li>在Android上：从使用Intents的网址启动应用程序</li>
+</ul>
+<ul>
+<li>在iOS上：通过注册自定义URI方案启动应用程序</li>
+</ul>
+<h4 id="使用SAML的HTTP-POST绑定"><a href="#使用SAML的HTTP-POST绑定" class="headerlink" title="使用SAML的HTTP POST绑定"></a>使用SAML的HTTP POST绑定</h4><p>本地移动应用程序的HTTP POST绑定的限制可以解决。例如，您可以使用嵌入式Web视图，您可以在其中编写自定义代码来观看整个身份验证过程。在此过程的最后，您可以浏览页面的HTML并提取出SAML令牌。</p>
+<p>第二个解决方法是实现可以接收HTTP POST的代理服务器，提取SAML令牌，然后制作包含SAML令牌的URL（例如：“myphotos：// authenticate /？SAMLRequest = asdfsdfsdf”）代理服务器可以使用HTTP重定向来使设备打开MyPhotos应用程序。而且由于SAML令牌是URL的一部分，MyPhotos应用程序可以将其解压缩，并使用它登录。</p>
+<p>第三个解决方法是忽略规范对使用HTTP重定向绑定的建议。这是非常诱人的，但很难摆脱你走进矿场的感觉，只是希望你不要错过一步。</p>
+<p>避免解决办法的另一种方法是不依赖于SAML，而是查看另一种方法，如OAuth 2.0。</p>
+<h3 id="oauth2-0"><a href="#oauth2-0" class="headerlink" title="oauth2.0"></a>oauth2.0</h3><p>在深层次上，OAuth2流程与以前的SAML流程没有什么不同：</p>
+<p><img src="/2017/08/12/SSO系统调研/blog\tommy\source\_posts\SSO系统调研\oauth2-flow.png" alt="oauth2-flow"></p>
+<p>我们来看看我们之前通过SAML进行的同样的情况：</p>
+<ul>
+<li><p>A、用户打开他们的网络浏览器，并转到MyPhotos.com，存储他们所有的照片。MyPhotos.com不会自己处理身份验证，所以用户需要被授权才被重定向到授权服务器。 用户被呈现一个登录表单，并询问他们是否要批准资源服务器（MyPhotos.com）代表他们行事。用户登录并将其重定向回MyPhotos.com。</p>
+</li>
+<li><p>B、客户端接收授权授权代码作为重定向的一部分，然后将其传递给客户端。</p>
+</li>
+<li><p>C、客户端然后使用授权授权代码从授权服务器请求访问令牌。</p>
+</li>
+<li><p>D、如果授权授权代码有效，则授权服务器授予访问令牌。然后客户端使用访问令牌从资源服务器（MyPhotos.com）请求资源。</p>
+</li>
+<li><p>E、 MyPhotos.com收到资源的请求，并收到访问令牌。为了确保它是一个有效的访问令牌，它会将令牌直接发送到授权服务器进行验证。如果有效，授权服务器将返回有关该用户的信息。</p>
+</li>
+<li><p>F、已验证用户的请求MyPhotos.com将请求的资源发送回用户。</p>
+<p>​</p>
+</li>
+</ul>
+<p>这是最常见的OAuth2流程：授权码流程。OAuth2提供了另外三种流程（或称为授权授权），这些流程适用于稍微不同的方案，例如单页JavaScript应用程序，原生移动应用程序，本地桌面应用程序，传统Web应用程序，以及服务器端应用程序，其中用户不直接涉及，但他们已经授予您代表他们执行某些操作的权限。</p>
+<p>OAuth2流程的最大优点是从授权服务器返回到客户端和资源服务器的通信是通过HTTP重定向完成的，其中提供了令牌信息作为查询参数。OAuth2也不认为客户端是Web浏览器，而默认的SAML Web浏览器SSO配置文件。本地移动应用程序将开箱即用。没有必要的解决方法。</p>
+<p>OAuth2规范没有规定资源服务器和授权服务器之间的通信在许多情况下工作，例如验证令牌。它也没有说明什么信息应该返回关于用户或什么格式。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/mongodbb数据迁移/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/08/mongodbb数据迁移/" itemprop="url">mongodb数据迁移</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T16:01:20+08:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="迁移背景"><a href="#迁移背景" class="headerlink" title="迁移背景"></a>迁移背景</h3><p>假设有A，B两个不同环境的数据库，要从A上把数据迁移到B上：</p>
+<p>A 数据库： ip: 100.100.100.100,  port:9003</p>
+<p>B 数据库： ip: 100.100.100.101,  port:9004</p>
+<h3 id="迁移操作"><a href="#迁移操作" class="headerlink" title="迁移操作"></a>迁移操作</h3><p>在B数据库环境下操作</p>
+<p>mongodump 是mongodb自带的导出数据工具，通过以下命令就能导出到相应的文件目录下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongodump -h 100.100.100.101 --port 9004 -u testuser -p testpassword -d testDB -o /data/bak</div></pre></td></tr></table></figure>
+<ul>
+<li><p>-h 后面参数是对应数据库ip</p>
+</li>
+<li><p>-port 后面参数是端口</p>
+</li>
+<li><p>-u, -p 分别是数据库的操作账号及其密码</p>
+</li>
+<li><p>-d 是对应的数据库名称</p>
+</li>
+<li><p>-o 是导出后数据存储的文件目录</p>
+<p>​</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/bolg1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -288,7 +756,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T11:34:01+08:00">
                 2017-08-08
@@ -309,7 +777,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -363,10 +831,10 @@
 <p>我们可以通过下命令来安装hexo:</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g hexo-cli</div></pre></td></tr></table></figure>
 <h3 id="3、创建我们的第一个博客"><a href="#3、创建我们的第一个博客" class="headerlink" title="3、创建我们的第一个博客"></a>3、创建我们的第一个博客</h3><p>首先我们需要在本地创建一个目录来放我们的博客，例如我的博客目录为：F:\blog\tommy,然后再该目录下打开GitBash，在该目录下点击鼠标右键我们可以找到 Git Bash here选项。我们可以看到如下界面：</p>
-<p><img src="E:\Personal\创新提交\02.png" alt="02"></p>
+<p><img src="\images\02.png" alt=""></p>
 <p>用如下命令来创建我们的博客：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo init</div></pre></td></tr></table></figure>
-<p>运行完后我们可以在该目录下看到如下目录结构<img src="E:\Personal\创新提交\03.png" alt="03"></p>
+<p>运行完后我们可以在该目录下看到如下目录结构<img src="/2017/08/08/bolg1/Personal\创新提交\03.png" alt="03"></p>
 <p>这里我们能看到如下几个目录：</p>
 <ul>
 <li>node_modules: nodejs模块所在的目录，比如hexo相关的模块</li>
@@ -380,14 +848,14 @@
 <li>themes: 博客的主题目录</li>
 </ul>
 <p>接下我们运行hexo server 或者 hexo s 后打开<a href="http://localhost:4000/" target="_blank" rel="external">http://localhost:4000</a> 我们就能看到一个简单的博客页面了。</p>
-<p><img src="E:\Personal\创新提交\04.png" alt="04"></p>
+<p><img src="/2017/08/08/bolg1/Personal\创新提交\04.png" alt="04"></p>
 <p>上面是Hexo根据_post下的hello-world.md 动态解析出来的静态页面，我们通过hexo generate 或者 hexo g 生成静态博客：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo g</div></pre></td></tr></table></figure>
 <p>我们就能看到目录下多出了public 目录：</p>
-<p><img src="E:\Personal\创新提交\05.png" alt="05"></p>
+<p><img src="/2017/08/08/bolg1/Personal\创新提交\05.png" alt="05"></p>
 <h3 id="3、发布我们的博客"><a href="#3、发布我们的博客" class="headerlink" title="3、发布我们的博客"></a>3、发布我们的博客</h3><p><a href="https://pages.github.com/" target="_blank" rel="external">Github pages</a>原本的目的是提供给开发者一个网站来介绍自己在Github上的项目，虽然它只支持静态网页，但是它够稳定并且提供了CDN。github每个用户可以创建一个github pages的项目, 而且名字和你github的注册账号一样，所以你在注册github的时候就该考虑好，像我的github账号为<strong>lpj2721</strong> 那我的博客地址为<a href="https://lpj2721.github.io/，所以好的账号能给提供一个好的博客访问地址。" target="_blank" rel="external">https://lpj2721.github.io/，所以好的账号能给提供一个好的博客访问地址。</a></p>
 <p>你注册号github后，在github上创建一个库命名为<strong>username.github.io</strong> username为你的github账号，然后在根目录下的配置文件_config.yaml，把我们刚创建的github项目信息放在deploy的配置里：</p>
-<p><img src="E:\Personal\创新提交\06.png" alt="06"></p>
+<p><img src="/2017/08/08/bolg1/Personal\创新提交\06.png" alt="06"></p>
 <p>配置完成后我们就可以使用hexo的deploy命令直接部署我们的博客了：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hexo deploy  或者 hexo d</div></pre></td></tr></table></figure>
 <p>到目前为止，整个基本的博客搭建教程就结束了，我们可以通过修改配置文件来定制我们自己的需求，像主题修改等，我们都可以参考Hexo (<a href="https://hexo.io/" target="_blank" rel="external">https://hexo.io</a>) 官方网站。</p>
@@ -469,7 +937,7 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
               <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T07:52:22+08:00">
                 2017-08-08
@@ -490,7 +958,7 @@
                 <i class="fa fa-folder-o"></i>
               </span>
               
-                <span class="post-meta-item-text">in</span>
+                <span class="post-meta-item-text">In</span>
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
@@ -623,8 +1091,8 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Artikel</span>
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
@@ -635,11 +1103,20 @@
             <div class="site-state-item site-state-categories">
               
                 <span class="site-state-item-count">2</span>
-                <span class="site-state-item-name">Kategorien</span>
+                <span class="site-state-item-name">categories</span>
               
             </div>
           
 
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              
+            </div>
           
 
         </nav>
@@ -687,7 +1164,7 @@
 
 
 <div class="powered-by">
-  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">

@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="mongoDB," />
 
 
 
@@ -94,12 +94,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta name="description" content="迁移背景假设有A，B两个不同环境的数据库，要从A上把数据迁移到B上： A 数据库： ip: 100.100.100.100,  port:9003 B 数据库： ip: 100.100.100.101,  port:9004 迁移操作在B数据库环境下操作 mongodump 是mongodb自带的导出数据工具，通过以下命令就能导出到相应的文件目录下： 1mongodump -h 100.100.1">
+<meta name="keywords" content="mongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb数据迁移">
+<meta property="og:url" content="http://yoursite.com/2017/08/08/mongodbb数据迁移/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="迁移背景假设有A，B两个不同环境的数据库，要从A上把数据迁移到B上： A 数据库： ip: 100.100.100.100,  port:9003 B 数据库： ip: 100.100.100.101,  port:9004 迁移操作在B数据库环境下操作 mongodump 是mongodb自带的导出数据工具，通过以下命令就能导出到相应的文件目录下： 1mongodump -h 100.100.1">
+<meta property="og:updated_time" content="2017-08-08T10:06:44.015Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="mongodb数据迁移">
+<meta name="twitter:description" content="迁移背景假设有A，B两个不同环境的数据库，要从A上把数据迁移到B上： A 数据库： ip: 100.100.100.100,  port:9003 B 数据库： ip: 100.100.100.101,  port:9004 迁移操作在B数据库环境下操作 mongodump 是mongodb自带的导出数据工具，通过以下命令就能导出到相应的文件目录下： 1mongodump -h 100.100.1">
 
 
 
@@ -128,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/08/08/mongodbb数据迁移/"/>
 
 
 
 
 
-  <title>Archive | Hexo</title>
+  <title>mongodb数据迁移 | Hexo</title>
   
 
 
@@ -159,7 +164,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -243,222 +248,169 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/08/mongodbb数据迁移/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">mongodb数据迁移</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-08T16:01:20+08:00">
+                2017-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 5 posts in total. Keep on posting.
-      </span>
 
-      
-
-        
-        
-        
-
-        
           
-          <div class="collection-title">
-            <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
-          </div>
-        
-        
+            
+          
 
-        
+          
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/12/OAuth2-o/" itemprop="url">
-              
-                <span itemprop="name">OAuth2.o</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-12T16:06:28+08:00"
-              content="2017-08-12" >
-          08-12
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+        </div>
+      </header>
+    
 
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/12/SSO系统调研/" itemprop="url">
-              
-                <span itemprop="name">SSO系统调研</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-12T09:54:44+08:00"
-              content="2017-08-12" >
-          08-12
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/08/mongodbb数据迁移/" itemprop="url">
-              
-                <span itemprop="name">mongodb数据迁移</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-08T16:01:20+08:00"
-              content="2017-08-08" >
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h3 id="迁移背景"><a href="#迁移背景" class="headerlink" title="迁移背景"></a>迁移背景</h3><p>假设有A，B两个不同环境的数据库，要从A上把数据迁移到B上：</p>
+<p>A 数据库： ip: 100.100.100.100,  port:9003</p>
+<p>B 数据库： ip: 100.100.100.101,  port:9004</p>
+<h3 id="迁移操作"><a href="#迁移操作" class="headerlink" title="迁移操作"></a>迁移操作</h3><p>在B数据库环境下操作</p>
+<p>mongodump 是mongodb自带的导出数据工具，通过以下命令就能导出到相应的文件目录下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mongodump -h 100.100.100.101 --port 9004 -u testuser -p testpassword -d testDB -o /data/bak</div></pre></td></tr></table></figure>
+<ul>
+<li><p>-h 后面参数是对应数据库ip</p>
+</li>
+<li><p>-port 后面参数是端口</p>
+</li>
+<li><p>-u, -p 分别是数据库的操作账号及其密码</p>
+</li>
+<li><p>-d 是对应的数据库名称</p>
+</li>
+<li><p>-o 是导出后数据存储的文件目录</p>
+<p>​</p>
+</li>
+</ul>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/08/bolg1/" itemprop="url">
-              
-                <span itemprop="name">Github pages + hexo 快速搭建属于自己的博客</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-08T11:34:01+08:00"
-              content="2017-08-08" >
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/08/08/hello-world/" itemprop="url">
-              
-                <span itemprop="name">Hello World</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-08-08T07:52:22+08:00"
-              content="2017-08-08" >
-          08-08
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mongoDB/" rel="tag"># mongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/08/bolg1/" rel="next" title="Github pages + hexo 快速搭建属于自己的博客">
+                <i class="fa fa-chevron-left"></i> Github pages + hexo 快速搭建属于自己的博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/12/SSO系统调研/" rel="prev" title="SSO系统调研">
+                SSO系统调研 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -466,6 +418,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -486,8 +442,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -549,6 +514,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#迁移背景"><span class="nav-number">1.</span> <span class="nav-text">迁移背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迁移操作"><span class="nav-number">2.</span> <span class="nav-text">迁移操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -662,11 +643,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
 
 
   
